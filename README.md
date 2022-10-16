@@ -8,7 +8,7 @@ for a similar Vue template see sibling repo [`web-template-vue`](https://github.
 Hit the [Use this template](https://github.com/mkdevops-se/web-template-react/generate) button
 to create your own Next.js-React repository. After your repository is created, allow for a few minutes
 to pass while the _Template Cleanup_ GitHub Actions Workflow perform setup of the repo
-([example](https://github.com/mblomdahl/mats-web-project/actions/runs/3256048235/jobs/5346008221)).
+([example](https://github.com/mblomdahl/mats-2nd-react-app/actions/runs/3259991895/jobs/5353222936)).
 
 ## Developing the Template
 
