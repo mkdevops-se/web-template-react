@@ -1,0 +1,57 @@
+# GitHub Actions Workflow responsible for cleaning up the template repository from
+# the template-specific files and configurations. This workflow is supposed to be triggered automatically
+# when a new template-based repository has been created.
+
+name: Template Cleanup
+run-name: ${{ github.actor }} is learning GitHub Templates
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  template-cleanup:
+    name: Template Cleanup
+    runs-on: ubuntu-latest
+    if: github.event.repository.name != 'web-template-react'
+    steps:
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+      # Setup Python
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install cookiecutter
+      # Template project
+      - name: Template and commit project
+        run: |
+          set -e # Always.
+          export REPO_NAME=${{ github.event.repository.name }}
+          if [ -z $REPO_NAME ]; then
+            echo "Repo name unresolved" && exit 1
+          fi
+          cookiecutter --no-input --output-dir . archetype/web_nextjs-react \
+            repo_name=$REPO_NAME github_username=${{ github.actor }}
+          rm -rvf archetype/ .github/
+          mv -v $REPO_NAME/* .
+          mv -v $REPO_NAME/.github .
+          mv -v $REPO_NAME/.gitignore .
+          rm -rvf $REPO_NAME/
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git status
+          git commit -m"Generated $REPO_NAME from Cookiecutter"
+      # Setup Node
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm install
+      - run: npm run build
+      # Push changes
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: master
+          github_token: ${{ secrets.GITHUB_TOKEN }}
