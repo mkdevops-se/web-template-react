@@ -1,5 +1,9 @@
 {
   "name": "{{ cookiecutter.repo_name }}",
+  "engines": {
+    "yarn": "^1",
+    "node": ">=16 <19"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",

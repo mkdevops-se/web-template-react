@@ -5,14 +5,14 @@ it contains a starter template from [Learn Next.js](https://nextjs.org/learn).
 
 ## Project setup
 
-    npm install
+    yarn install
 
 
 ### Compiles and hot-reloads for development
 
-    npm run dev
+    yarn dev
 
 
 ### Compiles and minifies for production
 
-    npm run build
+    yarn build
