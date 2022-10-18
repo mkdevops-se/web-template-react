@@ -8,7 +8,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write ."
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100
   },
   "dependencies": {
     "date-fns": "^2.11.1",
@@ -22,6 +29,9 @@
   "devDependencies": {
     "@types/node": "^18.11.0",
     "@types/react": "^18.0.21",
+    "eslint": "8.25.0",
+    "eslint-config-next": "12.3.1",
+    "prettier": "^2.7.1",
     "typescript": "^4.8.4"
   }
 }
