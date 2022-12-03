@@ -2,7 +2,12 @@
 
 # IDE
 .idea/
+*.iws
 *.iml
+*.ipr
+
+# OS
+.DS_Store
 
 # dependencies
 /node_modules
@@ -20,7 +25,6 @@
 /build
 
 # misc
-.DS_Store
 .env*
 
 # debug

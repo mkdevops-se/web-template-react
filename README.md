@@ -33,14 +33,17 @@ Remove Cookiecutter templating, move generated project into repo root and commit
     rm -rvf archetype/ .github/
     mv -v $REPO_NAME/* .
     mv -v $REPO_NAME/.github .
+    mv -v $REPO_NAME/.eslintrc.json .
     mv -v $REPO_NAME/.gitignore .
+    mv -v $REPO_NAME/.nvmrc .
+    mv -v $REPO_NAME/.prettierignore .
     rm -rvf $REPO_NAME/
     git add .
-    git commit -m"Generated $REPO_NAME from Cookiecutter"
+    git commit -m"Generated \`$REPO_NAME\` from Cookiecutter"
 
 Review the generated project, run the project setup steps from the re-created root README:
 
-    npm install && npm run build && npm run dev
+    yarn install && yarn build && yarn lint && yarn format:check && yarn dev
 
 Finally, reset your branch to the origin state:
 

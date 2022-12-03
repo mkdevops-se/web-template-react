@@ -5,6 +5,7 @@
 name: Template Cleanup
 run-name: ${{ github.actor }} is learning GitHub Templates
 on:
+  pull_request:
   push:
     branches:
       - master
@@ -13,7 +14,6 @@ jobs:
   template-cleanup:
     name: Template Cleanup
     runs-on: ubuntu-latest
-    if: github.event.repository.name != 'web-template-react'
     steps:
       # Check out current repository
       - name: Fetch Sources
@@ -31,6 +31,8 @@ jobs:
           if [ -z $REPO_NAME ]; then
             echo "Repo name unresolved" && exit 1
           fi
+
+          echo "Generate project \"$REPO_NAME\" with cookiecutter:"
           cookiecutter --no-input --output-dir . archetype/web_nextjs-react \
             repo_name=$REPO_NAME github_username=${{ github.actor }}
           rm -rvf archetype/ .github/
@@ -38,14 +40,22 @@ jobs:
           mv -v $REPO_NAME/.github .
           mv -v $REPO_NAME/.eslintrc.json .
           mv -v $REPO_NAME/.gitignore .
+          mv -v $REPO_NAME/.nvmrc .
           mv -v $REPO_NAME/.prettierignore .
           rm -rvf $REPO_NAME/
+
+          echo "Commit generated project:"
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
           git status
-          git commit -m"Generated $REPO_NAME from Cookiecutter"
-      # Setup Node
+          git commit -m"Generated \`$REPO_NAME\` from Cookiecutter
+
+          Co-authored-by: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          "
+          git log -n 2
+          echo "Done in $(pwd)."
+      # Build and verify project
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -54,7 +64,15 @@ jobs:
       - run: yarn lint
       - run: yarn format:check
       # Push changes
-      - name: Push changes
+      - name: Push changes to own repo "generated" branch for CI
+        if: github.event.repository.name == 'web-template-react'
+        uses: ad-m/github-push-action@master
+        with:
+          branch: generated
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+      - name: Push changes to templated service repo
+        if: github.event.repository.name != 'web-template-react'
         uses: ad-m/github-push-action@master
         with:
           branch: master
