@@ -5,3 +5,7 @@
 # Cookiecutter templating
 venv/
 *.pyc
+
+# Misc
+.next/
+node_modules/

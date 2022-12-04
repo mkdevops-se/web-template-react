@@ -33,6 +33,7 @@ Remove Cookiecutter templating, move generated project into repo root and commit
     rm -rvf archetype/ .github/
     mv -v $REPO_NAME/* .
     mv -v $REPO_NAME/.github .
+    mv -v $REPO_NAME/.env.development .
     mv -v $REPO_NAME/.eslintrc.json .
     mv -v $REPO_NAME/.gitignore .
     mv -v $REPO_NAME/.nvmrc .
