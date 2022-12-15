@@ -13,11 +13,16 @@ on:
 jobs:
   template-cleanup:
     name: Template Cleanup
+    permissions:
+      actions: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       # Setup Python
       - uses: actions/setup-python@v4
         with:
