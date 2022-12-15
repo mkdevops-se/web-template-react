@@ -1,5 +1,5 @@
 {
-  "name": "{{ cookiecutter.repo_name }}",
+  "name": "web-template-react",
   "engines": {
     "yarn": "^1",
     "node": ">=16 <19"

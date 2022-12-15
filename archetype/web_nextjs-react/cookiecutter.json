@@ -1,5 +1,0 @@
-{
-  "github_username": "{{ cookiecutter.github_username }}",
-  "repo_name": "{{ cookiecutter.repo_name }}",
-  "web_artifact_id": "{{ cookiecutter.repo_name }}"
-}

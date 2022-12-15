@@ -1,4 +1,4 @@
-const appName = "{{ cookiecutter.repo_name }}"
+const appName = "web-template-react"
 
 const getAppName = () => {
   if (process.env.APP_NAME && process.env.APP_NAME !== appName) {
