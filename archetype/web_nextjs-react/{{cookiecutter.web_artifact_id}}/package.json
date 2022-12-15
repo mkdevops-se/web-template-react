@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "set -a && source .env.development && next start",
     "lint": "next lint",
     "format:check": "prettier --check .",
     "format:write": "prettier --write ."

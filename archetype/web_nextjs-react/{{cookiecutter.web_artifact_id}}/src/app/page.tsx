@@ -1,26 +1,35 @@
-import Head from "next/head"
-import Layout, { siteTitle } from "~/components/layout"
-import utilStyles from "~/styles/utils.module.css"
-import typographyStyles from "~/styles/typography.module.css"
-import { getSortedPostsData } from "~/lib/posts"
+import Image from "next/image"
 import Link from "next/link"
-import Date from "~/components/date"
-import { GetStaticProps } from "next"
+import Date from "~/ui/Date"
+import { getSortedPostsData } from "~/lib/posts"
+import utilStyles from "~/styles/utils.module.css"
+import { getSafeProcessEnv } from "~/lib/env"
+import homeStyles from "./home.module.css"
+import typographyStyles from "~/styles/typography.module.css"
 
-export default function Home({
-  allPostsData,
-}: {
-  allPostsData: {
-    date: string
-    title: string
-    id: string
-  }[]
-}) {
+const ServerHomePage = () => {
+  const allPostsData = getSortedPostsData()
+  const serverEnv = getSafeProcessEnv()
+  const appName = serverEnv.APP_NAME
+  console.debug(
+    `Rendering home page with APP_NAME='${appName}' and ENV_NAME='${serverEnv.ENV_NAME}'`
+  )
+
   return (
-    <Layout home>
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
+    <>
+      <header className={homeStyles.header}>
+        <Image
+          priority
+          src={`/${appName}/images/profile.jpg`}
+          className={utilStyles.borderCircle}
+          height={144}
+          width={144}
+          alt={appName}
+        />
+        <h1>
+          {appName} @ {process.env.ENV_NAME}
+        </h1>
+      </header>
       <section className={typographyStyles.headingMd}>
         <p>
           This is a bare bone Next.js-React website generated via the{" "}
@@ -37,7 +46,7 @@ export default function Home({
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>{title}</Link>
+              <Link href={`${appName}/posts/${id}`}>{title}</Link>
               <br />
               <small className={utilStyles.lightText}>
                 <Date dateString={date} />
@@ -46,15 +55,8 @@ export default function Home({
           ))}
         </ul>
       </section>
-    </Layout>
+    </>
   )
 }
 
-export async function getServerSideProps() {
-  const allPostsData = getSortedPostsData()
-  return {
-    props: {
-      allPostsData,
-    },
-  }
-}
+export default ServerHomePage

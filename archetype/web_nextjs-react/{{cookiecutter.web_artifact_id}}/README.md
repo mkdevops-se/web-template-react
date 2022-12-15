@@ -20,3 +20,5 @@ it contains a starter template from [Learn Next.js](https://nextjs.org/learn).
 ### Compile and Minify for Production
 
     yarn build
+
+And to run the compiled app, production-style with dev settings: `yarn start`
